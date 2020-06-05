@@ -2,6 +2,11 @@
 
 namespace Gehog\StaticPages\StaticPage;
 
+/**
+ * Class StaticPageType
+ *
+ * @package Gehog\StaticPages\StaticPage
+ */
 final class StaticPageType {
     public $name;
     public $label;
@@ -11,11 +16,11 @@ final class StaticPageType {
     /**
      * StaticPageType constructor.
      *
-     * @param string $page_type
+     * @param string $name
      * @param array|string $args
      */
-    public function __construct($page_type, $args = []) {
-        $this->name = $page_type;
+    public function __construct($name, $args = []) {
+        $this->name = $name;
         $this->setProperties($args);
     }
 

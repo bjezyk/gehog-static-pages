@@ -4,8 +4,8 @@ namespace Gehog\StaticPages;
 
 use Gehog\StaticPages\Common\Container;
 use Gehog\StaticPages\StaticPage\StaticPageServiceProvider;
-use Gehog\StaticPages\Admin\Controllers\EditPageController;
-use Gehog\StaticPages\Admin\Controllers\OptionsReadingController;
+use Gehog\StaticPages\Admin\Controller\EditPageController;
+use Gehog\StaticPages\Admin\Controller\OptionsReadingController;
 
 /**
  * Class Plugin
@@ -41,6 +41,7 @@ class Plugin extends Container {
 
         $container->registerProviders();
 
+        \add_action('plugins_loaded', [$container, 'onPluginsLoaded']);
         \add_action('init', [$container, 'onInit']);
         \add_action('admin_init', [$container, 'onAdminInit']);
         \add_action('current_screen', [$container, 'onAdminCurrentScreen']);
@@ -58,6 +59,10 @@ class Plugin extends Container {
         \add_filter('query_vars', [$this, 'updateQueryVars']);
         \add_action('pre_get_posts', [$this, 'updateMainQuery']);
         \add_filter('template_include', [$this, 'updateTemplateInclude']);
+    }
+
+    public function onPluginsLoaded() {
+
     }
 
     public function onAdminInit() {

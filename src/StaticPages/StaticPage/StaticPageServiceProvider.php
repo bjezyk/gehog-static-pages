@@ -9,8 +9,12 @@ class StaticPageServiceProvider implements ServiceProviderInterface {
      * @param \Pimple\Container $container
      */
     public function register($container) {
-        $container['repository'] = function() {
-          return new StaticPageRepository();
+        $container['pages'] = function($c) {
+          return new StaticPageRepository($c['types']);
+        };
+
+        $container['types'] = function() {
+            return new StaticPageTypeManger();
         };
     }
 }

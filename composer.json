@@ -9,11 +9,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "Gehog\\StaticPages\\": "src/"
+            "Gehog\\StaticPages\\": "src/StaticPages/"
         },
         "files": [
-            "src/helpers.php",
-            "inc/global.php"
+            "src/hooks.php",
+            "src/helpers.php"
         ]
     },
     "require": {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gehog\StaticPages\Admin\Controllers;
+namespace Gehog\StaticPages\Admin\Controller;
 
 use Gehog\StaticPages\Common\Admin\AdminScreenController;
 
@@ -9,7 +9,7 @@ use function Gehog\StaticPages\repository;
 /**
  * Class OptionsReadingController
  *
- * @package Gehog\StaticPages\Admin\Controllers
+ * @package Gehog\StaticPages\Admin\Controller
  */
 class OptionsReadingController extends AdminScreenController {
     /**
@@ -27,7 +27,7 @@ class OptionsReadingController extends AdminScreenController {
     protected function registerSections() {
         \add_settings_section(
             'static_pages',
-            __('Static page types', 'gehog-static-pages'),
+            __('Static pages', 'gehog-static-pages'),
             [$this, 'renderSettingSection'],
             'reading'
         );

@@ -11,3 +11,9 @@ if (!function_exists('gehog_unregister_static_page_type')) {
         return \Gehog\StaticPages\unregister_page_type(...$args);
     }
 }
+
+if (!function_exists('gehog_is_static_page')) {
+    function gehog_is_static_page() {
+
+    }
+}

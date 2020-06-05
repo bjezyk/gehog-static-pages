@@ -1,6 +1,6 @@
 <?php
 
-namespace Gehog\StaticPages\Admin\Controllers;
+namespace Gehog\StaticPages\Admin\Controller;
 
 use Gehog\StaticPages\Common\Admin\AdminScreenController;
 
@@ -9,7 +9,7 @@ use function Gehog\StaticPages\repository;
 /**
  * Class EditPageController
  *
- * @package Gehog\StaticPages\Admin\Controllers
+ * @package Gehog\StaticPages\Admin\Controller
  */
 class EditPageController extends AdminScreenController {
     public function initialize() {
