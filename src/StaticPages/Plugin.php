@@ -36,7 +36,7 @@ class Plugin extends Container {
         return static::$instance;
     }
 
-    public static function load($values) {
+    protected static function load($values) {
         $container = new static($values);
 
         $container->registerBaseProviders();
@@ -56,7 +56,9 @@ class Plugin extends Container {
     }
 
     public function onPluginsLoaded() {
-        require_once GEHOG_STATIC_PAGES_DIR . '/inc/global.php';
+        \load_plugin_textdomain('gehog-static-pages', false, GEHOG_STATIC_PAGES_DIR. '/resources/languages/');
+
+        require_once \dirname(__DIR__) . '/globals.php';
     }
 
     public function onAdminInit() {

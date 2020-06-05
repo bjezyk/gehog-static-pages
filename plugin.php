@@ -17,7 +17,7 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 
-if (!\defined('ABSPATH')) {
+if (!defined('ABSPATH')) {
     http_send_status(404);
     die();
 }
@@ -34,15 +34,12 @@ define('GEHOG_STATIC_PAGES_URL', plugin_dir_url(__FILE__));
  */
 
 if (!is_readable($autoload = __DIR__ . '/vendor/autoload.php')) {
-    wp_die(__('Gehog Theme Autoload Error.', 'gehog-static-pages'));
+    wp_die('Gehog Static Pages Plugin Autoload Error.');
 }
 
-/** @var \Composer\Autoload\ClassLoader $loader */
-$loader = require $autoload;
+require $autoload;
 
-\Gehog\StaticPages\Plugin::instance([
-    'loader' => $loader
-]);
+Gehog\StaticPages\Plugin::instance();
 
 add_action('init', function () {
     gehog_register_static_page_type('label', ['label' => 'Label']);
