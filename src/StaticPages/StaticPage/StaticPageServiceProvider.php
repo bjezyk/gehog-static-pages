@@ -4,13 +4,18 @@ namespace Gehog\StaticPages\StaticPage;
 
 use Pimple\ServiceProviderInterface;
 
+/**
+ * Class StaticPageServiceProvider
+ *
+ * @package Gehog\StaticPages\StaticPage
+ */
 class StaticPageServiceProvider implements ServiceProviderInterface {
     /**
-     * @param \Pimple\Container $container
+     * @inheritDoc
      */
     public function register($container) {
-        $container['pages'] = function($c) {
-          return new StaticPageRepository($c['types']);
+        $container['pages'] = function() {
+          return new StaticPageRepository();
         };
 
         $container['types'] = function() {

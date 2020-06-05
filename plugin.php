@@ -22,6 +22,11 @@ if (!\defined('ABSPATH')) {
     die();
 }
 
+define('GEHOG_STATIC_PAGES_VERSION', '0.0.1');
+define('GEHOG_STATIC_PAGES_DIR', dirname(__FILE__));
+define('GEHOG_STATIC_PAGES_INC', GEHOG_STATIC_PAGES_DIR . '/inc');
+define('GEHOG_STATIC_PAGES_URL', plugin_dir_url(__FILE__));
+
 /*
  |-----------------------------------------------------------
  | Bootstraping Plugin
@@ -36,5 +41,9 @@ if (!is_readable($autoload = __DIR__ . '/vendor/autoload.php')) {
 $loader = require $autoload;
 
 \Gehog\StaticPages\Plugin::instance([
-  'loader' => $loader
+    'loader' => $loader
 ]);
+
+add_action('init', function () {
+    gehog_register_static_page_type('label', ['label' => 'Label']);
+});

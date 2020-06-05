@@ -4,7 +4,8 @@ namespace Gehog\StaticPages\Admin\Controller;
 
 use Gehog\StaticPages\Common\Admin\AdminScreenController;
 
-use function Gehog\StaticPages\repository;
+use function Gehog\StaticPages\pages;
+use function Gehog\StaticPages\types;
 
 /**
  * Class EditPageController
@@ -13,7 +14,7 @@ use function Gehog\StaticPages\repository;
  */
 class EditPageController extends AdminScreenController {
     public function initialize() {
-        if (repository()->hasRegisteredPageTypes()) {
+        if (types()->hasRegistration()) {
             \add_filter('display_post_states', [$this, 'updatePageStates'], 10, 2);
         }
     }
@@ -33,11 +34,12 @@ class EditPageController extends AdminScreenController {
             return $states;
         }
 
-        $static_page = repository()->findRegisteredStaticPageById($page->ID);
+        $static_page = pages()->findById($page->ID);
 
         if (!empty($static_page)) {
-            $page_type = repository()->getRegisteredPageType($static_page->page_type);
-            $states["static_page_{$static_page->page_type}"] = $page_type->label;
+            $page_type = types()->get($static_page->page_type);
+
+            $states["static_page_{$page_type->name}"] = $page_type->label;
         }
 
         return $states;

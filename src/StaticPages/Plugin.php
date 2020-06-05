@@ -39,7 +39,7 @@ class Plugin extends Container {
     public static function load($values) {
         $container = new static($values);
 
-        $container->registerProviders();
+        $container->registerBaseProviders();
 
         \add_action('plugins_loaded', [$container, 'onPluginsLoaded']);
         \add_action('init', [$container, 'onInit']);
@@ -49,12 +49,6 @@ class Plugin extends Container {
         return $container;
     }
 
-    protected function registerProviders() {
-        foreach ($this->service_providers as $provider) {
-            $this->register(new $provider());
-        }
-    }
-
     public function onInit() {
         \add_filter('query_vars', [$this, 'updateQueryVars']);
         \add_action('pre_get_posts', [$this, 'updateMainQuery']);
@@ -62,18 +56,33 @@ class Plugin extends Container {
     }
 
     public function onPluginsLoaded() {
-
+        require_once GEHOG_STATIC_PAGES_DIR . '/inc/global.php';
     }
 
     public function onAdminInit() {
-        \register_setting('reading', 'gehog_static_pages');
+        \register_setting('reading', 'gehog_static_pages', [
+          'type' => 'array',
+          'default' => []
+        ]);
     }
 
     public function onAdminCurrentScreen($screen) {
-        foreach ($this->screen_controllers as $screen_id => $controller_class) {
+        foreach ($this->screen_controllers as $screen_id => $screen_handlers) {
             if ($screen_id === $screen->id) {
-                new $controller_class($screen);
+                if (!is_array($screen_handlers)) {
+                    $screen_handlers = [$screen_handlers];
+                }
+
+                foreach ($screen_handlers as $screen_handler) {
+                    new $screen_handler($screen);
+                }
             }
+        }
+    }
+
+    protected function registerBaseProviders() {
+        foreach ($this->service_providers as $provider) {
+            $this->register(new $provider());
         }
     }
 

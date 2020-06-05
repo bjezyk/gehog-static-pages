@@ -3,37 +3,56 @@
 namespace Gehog\StaticPages;
 
 /**
- * @param string|null $id
- * @return \Gehog\StaticPages\Plugin|mixed
+ * Get the available container instance.
+ *
+ * @param string $name
+ * @return mixed
  */
-function plugin($id = null) {
-    if (is_null($id)) {
+function plugin($name = null) {
+    if (is_null($name)) {
         return Plugin::instance();
     }
 
-    return Plugin::instance()->get($id);
+    return Plugin::instance()->get($name);
 }
 
 /**
- * @return \Gehog\StaticPages\StaticPage\StaticPageRepository|mixed
+ * Resolve a service from the container.
+ *
+ * @param $name
+ * @return mixed
  */
-function repository() {
-    return plugin('repository');
+function resolve($name) {
+    return plugin($name);
 }
 
 /**
- * @param $page_type
- * @param $args
+ * @return \Gehog\StaticPages\StaticPage\StaticPageRepository
+ */
+function pages() {
+    return plugin('pages');
+}
+
+/**
+ * @return \Gehog\StaticPages\StaticPage\StaticPageTypeManger
+ */
+function types() {
+    return plugin('types');
+}
+
+/**
+ * @param string $page_type
+ * @param array $args
  * @return \Gehog\StaticPages\StaticPage\StaticPageType
  */
-function register_page_type($page_type, $args) {
-    return repository()->registerPageType($page_type, $args);
+function register_page_type($page_type, $args = []) {
+    return types()->register($page_type, $args);
 }
 
 /**
- * @param $page_type
+ * @param string $page_type
  * @return bool|\WP_Error
  */
 function unregister_page_type($page_type) {
-    return repository()->unregisterPageType($page_type);
+    return types()->unregister($page_type);
 }

@@ -4,7 +4,8 @@ namespace Gehog\StaticPages\Admin\Controller;
 
 use Gehog\StaticPages\Common\Admin\AdminScreenController;
 
-use function Gehog\StaticPages\repository;
+use function Gehog\StaticPages\pages;
+use function Gehog\StaticPages\types;
 
 /**
  * Class OptionsReadingController
@@ -32,7 +33,7 @@ class OptionsReadingController extends AdminScreenController {
             'reading'
         );
 
-        foreach (repository()->getRegisteredPageTypes() as $type) {
+        foreach (types()->getAll() as $type) {
             $this->registerSettingField($type);
         }
     }
@@ -64,7 +65,7 @@ class OptionsReadingController extends AdminScreenController {
      * @return void
      */
     public function renderSettingSection() {
-        if (repository()->hasRegisteredPageTypes()) {
+        if (types()->hasRegistration()) {
             printf(
               '<p>%s</p>',
               __(
@@ -91,7 +92,7 @@ class OptionsReadingController extends AdminScreenController {
      * @return void
      */
     public function renderSettingField($type) {
-        $static_page = repository()->findRegisteredStaticPageByType($type);
+        $static_page = pages()->findByType($type);
         $selected_page_id = 0;
 
         if (!is_null($static_page)) {

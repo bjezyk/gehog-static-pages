@@ -10,7 +10,7 @@ namespace Gehog\StaticPages\StaticPage;
 final class StaticPageType {
     public $name;
     public $label;
-    public $description = '';
+    public $description;
     public $query_var;
 
     /**
