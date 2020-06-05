@@ -1,0 +1,21 @@
+{
+  "arrowParens": "always",
+  "semi": true,
+  "endOfLine": "lf",
+  "singleQuote": true,
+  "phpVersion": "7.1",
+  "printWidth": 120,
+  "tabWidth": 2,
+  "trailingComma": "none",
+  "trailingCommaPHP": "none",
+  "braceStyle": "1tbs",
+  "overrides": [
+    {
+      "files": "*.php",
+      "options": {
+        "tabWidth": 4,
+        "proseWrap": "preserve"
+      }
+    }
+  ]
+}
