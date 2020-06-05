@@ -30,9 +30,7 @@ class StaticPageRepository {
 
         if (\is_array($static_pages_meta)) {
             foreach ($static_pages_meta as $page_type => $page_id) {
-                if ($this->hasRegisteredPageType($page_type)) {
-                    $this->static_pages[$page_type] = new StaticPageMeta($page_type, $page_id);
-                }
+                $this->static_pages[$page_type] = new StaticPageMeta($page_type, $page_id);
             }
         }
     }
@@ -75,6 +73,22 @@ class StaticPageRepository {
             if ($static_page->page_id == $page_id) {
                 return $static_page;
             }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param \Gehog\StaticPages\StaticPage\StaticPageType|string $page_type
+     * @return \Gehog\StaticPages\StaticPage\StaticPageMeta|mixed
+     */
+    public function findRegisteredStaticPageByType($page_type) {
+        if ($page_type instanceof StaticPageType) {
+            $page_type = $page_type->name;
+        }
+
+        if (isset($this->static_pages[$page_type])) {
+            return $this->static_pages[$page_type];
         }
 
         return null;

@@ -6,6 +6,11 @@ use Gehog\StaticPages\Common\Admin\AdminScreenController;
 
 use function Gehog\StaticPages\repository;
 
+/**
+ * Class OptionsReadingController
+ *
+ * @package Gehog\StaticPages\Admin\Controllers
+ */
 class OptionsReadingController extends AdminScreenController {
     /**
      * @inheritDoc
@@ -59,13 +64,24 @@ class OptionsReadingController extends AdminScreenController {
      * @return void
      */
     public function renderSettingSection() {
-        printf(
-            '<p>%s</p>',
-            __(
+        if (repository()->hasRegisteredPageTypes()) {
+            printf(
+              '<p>%s</p>',
+              __(
                 'Below are listed all the registered static page types.',
                 'gehog-static-pages'
-            )
-        );
+              )
+            );
+        }
+        else {
+            printf(
+              '<p>%s</p>',
+              __(
+                'There are no registered static page types.',
+                'gehog-static-pages'
+              )
+            );
+        }
     }
 
     /**
@@ -75,11 +91,11 @@ class OptionsReadingController extends AdminScreenController {
      * @return void
      */
     public function renderSettingField($type) {
-        $static_pages = repository()->getRegisteredStaticPages();
+        $static_page = repository()->findRegisteredStaticPageByType($type);
         $selected_page_id = 0;
 
-        if (isset($static_pages[$type->name])) {
-            $selected_page_id = intval($static_pages[$type->name]);
+        if (!is_null($static_page)) {
+            $selected_page_id = intval($static_page->page_id);
         }
 
         $dropdown_args = [

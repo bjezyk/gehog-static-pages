@@ -6,6 +6,11 @@ use Gehog\StaticPages\Common\Admin\AdminScreenController;
 
 use function Gehog\StaticPages\repository;
 
+/**
+ * Class EditPageController
+ *
+ * @package Gehog\StaticPages\Admin\Controllers
+ */
 class EditPageController extends AdminScreenController {
     public function initialize() {
         if (repository()->hasRegisteredPageTypes()) {
