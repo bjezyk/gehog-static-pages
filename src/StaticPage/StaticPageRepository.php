@@ -28,9 +28,9 @@ class StaticPageRepository {
         /** @var array $data */
         $static_pages_meta = \get_option('gehog_static_pages', []);
 
-        if (is_array($static_pages_meta)) {
+        if (\is_array($static_pages_meta)) {
             foreach ($static_pages_meta as $page_type => $page_id) {
-                if ($this->isRegisteredPageType($page_type)) {
+                if ($this->hasRegisteredPageType($page_type)) {
                     $this->static_pages[$page_type] = new StaticPageMeta($page_type, $page_id);
                 }
             }
@@ -41,7 +41,7 @@ class StaticPageRepository {
      * @return \Gehog\StaticPages\StaticPage\StaticPageType[]
      */
     public function getRegisteredPageTypes() {
-        return array_values($this->page_types);
+        return \array_values($this->page_types);
     }
 
     /**
@@ -56,14 +56,14 @@ class StaticPageRepository {
      * @return bool
      */
     public function hasRegisteredPageTypes() {
-        return boolval(count($this->page_types));
+        return \boolval(\count($this->page_types));
     }
 
     /**
      * @return \Gehog\StaticPages\StaticPage\StaticPageMeta[]
      */
     public function getRegisteredStaticPages() {
-        return array_values($this->static_pages);
+        return \array_values($this->static_pages);
     }
 
     /**
@@ -86,7 +86,7 @@ class StaticPageRepository {
      * @return \Gehog\StaticPages\StaticPage\StaticPageType
      */
     public function registerPageType($page_type, $args = null) {
-        $page_type = sanitize_key($page_type);
+        $page_type = \sanitize_key($page_type);
 
         return $this->page_types[$page_type] = new StaticPageType($page_type, $args);
     }
