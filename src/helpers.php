@@ -29,3 +29,11 @@ function repository() {
 function register_page_type($page_type, $args) {
     return repository()->registerPageType($page_type, $args);
 }
+
+/**
+ * @param $page_type
+ * @return bool|\WP_Error
+ */
+function unregister_page_type($page_type) {
+    return repository()->unregisterPageType($page_type);
+}

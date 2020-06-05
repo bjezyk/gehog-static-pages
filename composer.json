@@ -12,7 +12,8 @@
             "Gehog\\StaticPages\\": "src/"
         },
         "files": [
-            "src/helpers.php"
+            "src/helpers.php",
+            "inc/global.php"
         ]
     },
     "require": {

@@ -38,8 +38,3 @@ $loader = require $autoload;
 \Gehog\StaticPages\Plugin::instance([
   'loader' => $loader
 ]);
-
-add_action('init', function() {
-    \Gehog\StaticPages\register_page_type('items', ['label' => 'Items Page']);
-    \Gehog\StaticPages\register_page_type('products', ['label' => 'Products Page']);
-});

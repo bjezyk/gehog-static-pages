@@ -111,6 +111,7 @@ class StaticPageRepository {
         }
 
         unset($this->page_types[$page_type]);
+        return true;
     }
 
     public function hasRegisteredPageType($page_type) {
