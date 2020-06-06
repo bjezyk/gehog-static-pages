@@ -3,11 +3,11 @@
 namespace Gehog\StaticPages\Common\Admin;
 
 /**
- * Class AdminScreenController
+ * Class ScreenController
  *
  * @package Gehog\StaticPages\Common\Admin
  */
-abstract class AdminScreenController {
+abstract class ScreenController {
     /** @var \WP_Screen */
     private $screen;
 
@@ -18,12 +18,10 @@ abstract class AdminScreenController {
      */
     public function __construct($screen) {
         $this->screen = $screen;
-
-        $this->initialize();
     }
 
     /**
-     * Initialize controller on screen.
+     * Initialize controller on current screen.
      *
      * @return void
      */

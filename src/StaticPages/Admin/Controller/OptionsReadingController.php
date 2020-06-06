@@ -2,7 +2,7 @@
 
 namespace Gehog\StaticPages\Admin\Controller;
 
-use Gehog\StaticPages\Common\Admin\AdminScreenController;
+use Gehog\StaticPages\Common\Admin\ScreenController;
 
 use function Gehog\StaticPages\pages;
 use function Gehog\StaticPages\types;
@@ -12,7 +12,7 @@ use function Gehog\StaticPages\types;
  *
  * @package Gehog\StaticPages\Admin\Controller
  */
-class OptionsReadingController extends AdminScreenController {
+class OptionsReadingController extends ScreenController {
     /**
      * @inheritDoc
      */
@@ -69,7 +69,7 @@ class OptionsReadingController extends AdminScreenController {
             printf(
               '<p>%s</p>',
               __(
-                'Below are listed all the registered static page types.',
+                'List of registered static page types and their corresponding pages',
                 'gehog-static-pages'
               )
             );

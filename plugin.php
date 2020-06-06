@@ -22,15 +22,21 @@ if (!defined('ABSPATH')) {
     die();
 }
 
+/*
+ * Prevent loading plugin during the WordPress installation.
+ */
+if (wp_installing()) {
+    return;
+}
+
 define('GEHOG_STATIC_PAGES_VERSION', '0.0.1');
-define('GEHOG_STATIC_PAGES_DIR', dirname(__FILE__));
-define('GEHOG_STATIC_PAGES_INC', GEHOG_STATIC_PAGES_DIR . '/inc');
+define('GEHOG_STATIC_PAGES_FILE', __FILE__ );
+define('GEHOG_STATIC_PAGES_BASENAME', plugin_basename(__FILE__));
+define('GEHOG_STATIC_PAGES_PATH', plugin_dir_path(__FILE__));
 define('GEHOG_STATIC_PAGES_URL', plugin_dir_url(__FILE__));
 
 /*
- |-----------------------------------------------------------
- | Bootstraping Plugin
- |-----------------------------------------------------------
+ * Bootstrap the Plugin
  */
 
 if (!is_readable($autoload = __DIR__ . '/vendor/autoload.php')) {
@@ -42,5 +48,6 @@ require $autoload;
 Gehog\StaticPages\Plugin::instance();
 
 add_action('init', function () {
-    gehog_register_static_page_type('label', ['label' => 'Label']);
+    gehog_register_static_page_type('media', ['label' => 'Media']);
+    gehog_register_static_page_type('document', ['label' => 'Document']);
 });

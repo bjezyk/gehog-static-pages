@@ -2,7 +2,7 @@
 
 namespace Gehog\StaticPages\Admin\Controller;
 
-use Gehog\StaticPages\Common\Admin\AdminScreenController;
+use Gehog\StaticPages\Common\Admin\ScreenController;
 
 use function Gehog\StaticPages\pages;
 use function Gehog\StaticPages\types;
@@ -12,7 +12,7 @@ use function Gehog\StaticPages\types;
  *
  * @package Gehog\StaticPages\Admin\Controller
  */
-class EditPageController extends AdminScreenController {
+class EditPageController extends ScreenController {
     public function initialize() {
         if (types()->hasRegistration()) {
             \add_filter('display_post_states', [$this, 'updatePageStates'], 10, 2);

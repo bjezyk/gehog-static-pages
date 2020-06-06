@@ -3,9 +3,8 @@
 ## Static Pages is a WordPress Plugin which offer comprehensive way to denote custom static pages similar to "Page on front" and "Page for posts".
 
 ### Features
-- Querying static pages within WP_Query by passing new query var `static_page`.
 - Auto redirect to static page by adding a query search param in the url like `?static_page=page_type`.
-- Theming static pages via `static-[page_type].php` template files (In Progress).
+- Theming static pages via `static-page-[page_type].php` template files (In Progress).
 
 ### Configuration
 To connect your static page type with an existing page, go to *Reading Setting* in administrative area.
@@ -22,13 +21,6 @@ add_action('init', function() {
     
     gehog_unregister_static_page_type('page_type');
 });
-```
-
-#### Quering via WP_Query.
-```php
-$query = new WP_Query([
-    'static_page' => 'page_type'
-]);
 ```
 
 ### Functions
