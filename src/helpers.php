@@ -56,3 +56,10 @@ function register_page_type($page_type, $args = []) {
 function unregister_page_type($page_type) {
     return types()->unregister($page_type);
 }
+
+/**
+ * @return bool
+ */
+function is_static_page() {
+    return plugin()->isStaticPage();
+}

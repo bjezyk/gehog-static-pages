@@ -13,8 +13,8 @@ class Plugin extends Container {
     protected static $instance;
 
     protected $service_providers = [
-      \Gehog\StaticPages\Settings\SettingsServiceProvider::class,
-      \Gehog\StaticPages\StaticPage\StaticPageServiceProvider::class
+        \Gehog\StaticPages\Settings\SettingsServiceProvider::class,
+        \Gehog\StaticPages\StaticPage\StaticPageServiceProvider::class
     ];
 
     protected $screen_controllers = [
@@ -43,12 +43,22 @@ class Plugin extends Container {
         return $container;
     }
 
+    /**
+     * Register available service providers
+     *
+     * @return void
+     */
     protected function registerProviders() {
         foreach ($this->service_providers as $provider) {
             $this->register(new $provider());
         }
     }
 
+    /**
+     * Register plugin hooks
+     *
+     * @return void
+     */
     protected function registerHooks() {
         \add_action('plugins_loaded', [$this, 'onPluginsLoaded']);
         \add_action('admin_init', [$this, 'onAdminInit']);
@@ -56,11 +66,17 @@ class Plugin extends Container {
         \add_action('init', [$this, 'onInit']);
     }
 
+    /**
+     * @return void
+     */
     public function onPluginsLoaded() {
         $this->loadTextDomain();
         $this->loadPluggableFunctions();
     }
 
+    /**
+     * @return void
+     */
     public function onAdminInit() {
         /** @var \Gehog\StaticPages\Settings\SettingsManager $settings */
         $settings = $this['settings'];
@@ -89,27 +105,16 @@ class Plugin extends Container {
         }
     }
 
+    /**
+     * @return void
+     */
     public function onInit() {
         \add_filter('query_vars', [$this, 'updateQueryVars']);
 
         if (!is_admin()) {
-            \add_filter('request', [$this, 'requestQueryVars']);
-            // \add_action('parse_query', [$this, 'transformQuery']);
-            \add_action('parse_request', [$this, 'transformRequest']);
-            //\add_action('pre_get_posts', [$this, 'transformPostsQuery']);
+            \add_filter('template_include', [$this, 'updateTemplateInclude']);
+            \add_action('template_redirect', [$this, 'redirectStaticPage']);
         }
-
-        //\add_filter('template_include', [$this, 'updateTemplateInclude']);
-        \add_action('template_redirect', [$this, 'redirectStaticPage']);
-    }
-
-    public function dump($var, $name) {
-        echo '<div style="display: flex;flex-direction: column">';
-        echo '<strong>' . $name . '</strong>';
-        echo '<textarea style="font-size: 12px;white-space:pre-line;line-height:1;font-family: monospace;margin:0;padding:0;height: 400px;width: 800px;overflow: auto;">';
-        echo esc_html(print_r($var, true));
-        echo '</textarea>';
-        echo '</div>';
     }
 
     public function redirectStaticPage() {
@@ -129,40 +134,10 @@ class Plugin extends Container {
                     $permalink = add_query_arg($query_args, $permalink);
                 }
 
-
-                //wp_redirect($permalink, 301);
-                exit;
+                wp_safe_redirect($permalink, 301);
+                exit();
             }
         }
-    }
-
-    public function requestQueryVars($query_vars) {
-        return $query_vars;
-    }
-
-    public function transformPostsQuery(\WP_Query $query) {
-        if ($query->is_main_query()) {
-            $this->dump($query, 'transformPrePostsQuery');
-        }
-    }
-
-    public function transformQuery(\WP_Query $query) {
-
-
-        if ($query->is_main_query()) {
-            $this->dump($query, 'transformQuery');
-        }
-    }
-
-    public function transformRequest(\WP $wp) {
-        if (empty($wp->query_vars['static_page'])) {
-
-        }
-
-        $this->dump($wp, 'transformRequest');
-
-
-        $this->dump($GLOBALS['wp_rewrite'], 'rules');
     }
 
     public function updateQueryVars($query_vars) {
@@ -170,31 +145,11 @@ class Plugin extends Container {
         return $query_vars;
     }
 
-
-
-
-    public function updateMainQuery(\WP_Query $query) {
-        if (is_admin() || !$query->is_main_query()) {
-            return;
-        }
-
-        // $query->is_static_page = false;
-
-        $type = get_query_var('static_page', '');
-
-        if (!empty($type)) {
-            $page_id = $this->getStaticPageId($type);
-
-            if ($page_id) {
-                $query->set('post_type', 'page');
-                $query->set('p', $page_id);
-            }
-        }
-    }
-
-
-
     public function updateTemplateInclude($template) {
+        if ($this->isStaticPage() && $static_template = $this->getStaticPageTemplate()) {
+            $template = $static_template;
+        }
+
         return $template;
     }
 
@@ -203,16 +158,23 @@ class Plugin extends Container {
             return false;
         }
 
-        return false;
+        $page_id = \get_queried_object_id();
+        $static_page = pages()->findById($page_id);
+
+        return !is_null($static_page);
     }
 
     public function getStaticPageTemplate() {
-        $static_pages = \get_option('gehog_static_pages', []);
-        $page_id = \get_queried_object_id();
         $templates = [];
 
-        if (($type = array_search($page_id, $static_pages)) !== false) {
-            $templates[] = "static-page-{$type}.php";
+        $page = \get_queried_object();
+
+        if ($page instanceof \WP_Post) {
+            $static_page = pages()->findById($page->ID);
+
+            if ($static_page) {
+                $templates[] = "static-page-{$static_page->page_type}.php";
+            }
         }
 
         $templates[] = 'static-page.php';
@@ -235,6 +197,10 @@ class Plugin extends Container {
      * @return void
      */
     protected function loadTextDomain() {
-        \load_plugin_textdomain('gehog-static-pages', false, dirname(GEHOG_STATIC_PAGES_BASENAME). '/resources/languages/');
+        \load_plugin_textdomain(
+            'gehog-static-pages',
+            false,
+            dirname(GEHOG_STATIC_PAGES_BASENAME) . '/resources/languages/'
+        );
     }
 }
