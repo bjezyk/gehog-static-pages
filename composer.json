@@ -1,0 +1,30 @@
+{
+    "name": "gehog/gehog-static-pages",
+    "type": "wordpress-plugin",
+    "authors": [
+        {
+            "name": "Bartosz Jezyk",
+            "email": "bjezyk@users.noreply.github.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Gehog\\StaticPages\\": "src/StaticPages/"
+        },
+        "files": [
+            "src/hooks.php",
+            "src/helpers.php"
+        ]
+    },
+    "require": {
+        "php": ">=7.1",
+        "composer/installers": "~1.0",
+        "pimple/pimple": "^3.3"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}

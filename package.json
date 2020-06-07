@@ -1,0 +1,32 @@
+{
+  "name": "gehog-static-pages",
+  "version": "0.0.1",
+  "license": "GPL-2.0-or-later",
+  "author": {
+    "name": "Bartosz Jezyk",
+    "email": "bjezyk@users.noreply.github.com"
+  },
+  "scripts": {
+    "build": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "devDependencies": {
+    "@wordpress/browserslist-config": "^2.6.0",
+    "browserslist": "^4.12.0",
+    "cross-env": "^7.0.2",
+    "laravel-mix": "^5.0.4",
+    "resolve-url-loader": "^3.1.0",
+    "sass": "^1.26.8",
+    "sass-loader": "^8.0.2",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "browserslist": [
+    "extends @wordpress/browserslist-config"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bjezyk/gehog-static-pages.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bjezyk/gehog-static-pages/issues"
+  }
+}
