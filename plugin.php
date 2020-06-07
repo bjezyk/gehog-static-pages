@@ -46,8 +46,3 @@ if (!is_readable($autoload = __DIR__ . '/vendor/autoload.php')) {
 require $autoload;
 
 Gehog\StaticPages\Plugin::instance();
-
-add_action('init', function () {
-    gehog_register_static_page_type('media', ['label' => 'Media']);
-    gehog_register_static_page_type('document', ['label' => 'Document']);
-});
