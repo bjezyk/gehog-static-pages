@@ -4,7 +4,7 @@
 
 ### Features
 - Auto redirect to static page by adding a query search param in the url like `?static_page=page_type`.
-- Theming static pages via `static-page-[page_type].php` template files (In Progress).
+- Theming static pages via `static-page-[page_type].php` template files.
 
 ### Configuration
 To connect your static page type with an existing page, go to *Reading Setting* in administrative area.
