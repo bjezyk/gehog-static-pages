@@ -46,3 +46,8 @@ gehog_is_static_page([$page], [$page_type]);
 _Determines whether the query is for an static page._
 - `$page` (int|int[]) (Optional) Page ID or array of such ids.
 - `$page_type` (string|string[]) (Optional) Static page type or array of such types.
+
+### Todo features
+- Ability to associate the static page with a custom post type. Viewing static page as the post type archive page. Inheritance static page slug for custom post type.
+- Integration with translation plugins like WPML or Polylang.
+- Registration of the static page type by the administrator users.
